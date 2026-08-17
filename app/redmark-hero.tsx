@@ -11,11 +11,6 @@ const ArrowUpRight = () => (
   </svg>
 );
 
-const ChevronDown = () => (
-  <svg aria-hidden="true" fill="none" viewBox="0 0 16 16">
-    <path d="m5 6.5 3 3 3-3" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.4" />
-  </svg>
-);
 
 export default function RedmarkHero({ children }: { children: React.ReactNode }) {
   const heroRef = useRef<HTMLElement>(null);
@@ -112,10 +107,9 @@ export default function RedmarkHero({ children }: { children: React.ReactNode })
         </Link>
 
         <nav aria-label="主要導覽" className="desktop-nav">
-          <a href="#platform">產品功能 <ChevronDown /></a>
-          <a href="#solutions">解決方案</a>
-          <a href="#resources">資安資源</a>
+          <a href="#platform">產品功能</a>
           <a href="#pricing">價格方案</a>
+          <a href="#contact">聯繫我們</a>
         </nav>
 
         <div className="nav-actions">
