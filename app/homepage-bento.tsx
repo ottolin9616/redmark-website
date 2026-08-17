@@ -353,17 +353,20 @@ export default function HomepageBento({ reportVariant = "current" }: { reportVar
         <div className="rm3-final-grade" aria-hidden="true" />
         <div className="rm3-final-glass" data-reveal>
           <span>START WITH ONE WEBSITE</span>
-          <h2 id="rm3-final-title">從第一個網站開始，<br />建立持續弱掃流程</h2>
+          <h2 id="rm3-final-title">從第一個網站開始，建立持續弱掃流程</h2>
           <p>以更低的執行成本持續檢測網站弱點，更早發現問題，也讓每一次修復都有清楚的方向。</p>
           <a href="#early-access">立刻開始掃描 <Arrow /></a>
-          <small id="early-access"><i /> Redmark 目前開放 Early Access 合作與試用申請。</small>
         </div>
       </section>
 
       <footer className="rm3-footer" data-nav-surface="dark" id="contact">
         <div className="rm3-footer-main">
           <div className="rm3-footer-brand"><Link aria-label="Redmark 首頁" className="rm3-footer-logo" href="/"><img alt="Redmark" src="/redmark-logo-dark.svg" /></Link><p>Redmark 是一套低成本、快速且容易上手的自動化弱點掃描平台，協助企業將低頻的弱點檢測，轉化為可持續執行的日常安全流程。</p></div>
-          <div className="rm3-footer-links"><div><span>PRODUCT</span><a href="#platform">產品功能</a><a href="#report">弱掃報告</a><a href="#resources">產品價值</a></div><div><span>COMPANY</span><a href="#pricing">價格方案</a><a href="#start">Early Access</a><a href="#contact">聯絡我們</a></div></div>
+          <div className="rm3-footer-links">
+            <a href="#platform">產品功能</a>
+            <a href="#pricing">價格方案</a>
+            <a href="#contact">聯繫我們</a>
+          </div>
         </div>
         <div className="rm3-footer-bottom"><span>© 2026 REDMARK</span><span>VULNERABILITY SCANNING PLATFORM</span></div>
       </footer>
