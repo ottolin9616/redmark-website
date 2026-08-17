@@ -3,6 +3,7 @@
 /* eslint-disable @next/next/no-img-element -- The approved report and continuous Bento landscape use direct image rendering. */
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 const Arrow = () => (
   <svg aria-hidden="true" fill="none" viewBox="0 0 20 20">
@@ -29,53 +30,6 @@ const SectionLabel = ({ children, light = false }: { children: React.ReactNode; 
 
 const FeatureIcon = ({ type }: { type: "scan" | "schedule" | "finding" | "report" }) => (
   <span className={`rm3-feature-icon rm3-feature-icon-${type}`} aria-hidden="true"><i /></span>
-);
-
-const WindowTop = ({ path }: { path: string }) => (
-  <div className="rm3-window-top">
-    <span aria-hidden="true"><i /><i /><i /></span>
-    <em>{path}</em>
-    <b><i /> ONLINE</b>
-  </div>
-);
-
-const ScanMock = () => (
-  <div className="rm3-scan-mock" aria-label="新增掃描模擬介面">
-    <WindowTop path="redmark.app / scans / new" />
-    <div className="rm3-ui-shell">
-      <aside aria-hidden="true"><strong>R</strong><i /><i /><i /><i /></aside>
-      <div className="rm3-scan-form">
-        <div className="rm3-ui-heading"><span>新增掃描</span><small>建立新的網站弱點掃描任務</small></div>
-        <label>掃描目標</label>
-        <div className="rm3-target-input"><span>https://www.example.com</span><i>已驗證</i></div>
-        <label>掃描類型</label>
-        <div className="rm3-type-options">
-          <span className="is-selected"><i />Web 基礎弱點掃描<small>快速檢查常見網站風險</small></span>
-          <span><i />Web 動態弱點掃描<small>更深入的主動式安全檢測</small></span>
-        </div>
-        <button type="button">開始掃描 <Arrow /></button>
-      </div>
-    </div>
-  </div>
-);
-
-const ScheduleMock = () => (
-  <div className="rm3-schedule-mock" aria-label="定期掃描排程模擬介面">
-    <div className="rm3-card-ui-head"><span>定期掃描</span><b>啟用中</b></div>
-    <p>每週自動檢查，不錯過系統變更後產生的新風險。</p>
-    <div className="rm3-schedule-chart" aria-hidden="true"><i /><i /><i /><i /><i /><i /><i /></div>
-    <div className="rm3-week"><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span></div>
-    <div className="rm3-next-run"><span><i />下次執行</span><strong>週三 02:00</strong></div>
-  </div>
-);
-
-const FindingMock = () => (
-  <div className="rm3-finding-mock" aria-label="弱點詳情模擬介面">
-    <div className="rm3-card-ui-head"><span>弱點詳情</span><b className="rm3-high">高風險</b></div>
-    <div className="rm3-finding-heading"><div><h4>Content Security Policy 未設定</h4><div className="rm3-finding-meta"><span>OWASP A05</span><span>安全性設定錯誤</span></div></div><strong><b>4</b><small>優先項目</small></strong></div>
-    <div className="rm3-evidence"><small>影響位置</small><code>https://example.com/account</code></div>
-    <div className="rm3-fix-row"><span><Check />修復建議與驗證方式</span><Arrow /></div>
-  </div>
 );
 
 const reportPanels = [
@@ -134,17 +88,6 @@ const RealReportPreview = ({ activeIndex }: { activeIndex: number }) => {
   );
 };
 
-const BentoReportPreview = () => (
-  <div className="rm3-bento-report-preview" aria-label="Redmark 弱點掃描報告已完成">
-    <div className="rm3-bento-report-orb" aria-hidden="true"><strong>14</strong><span>項弱點</span></div>
-    <div className="rm3-bento-report-chip">
-      <span>REAL REPORT</span>
-      <strong>14 項弱點已整理</strong>
-      <small>PDF · WIKIREX.COM</small>
-    </div>
-  </div>
-);
-
 const painPoints = [
   {
     number: "01",
@@ -155,7 +98,7 @@ const painPoints = [
   {
     number: "02",
     label: "VISIBILITY GAP",
-    title: "風險不會等下一次掃描",
+    title: "掃描有週期，風險沒有空窗期",
     text: "網站與服務持續變動，只靠人工或不定期檢測，很容易在兩次掃描之間留下風險空窗。",
   },
   {
@@ -223,39 +166,74 @@ export default function HomepageBento() {
               </article>
             ))}
           </div>
-          <p className="rm3-pain-conclusion" data-reveal><span>真正的阻力</span>不是缺少掃描工具，而是複雜度讓安全檢測難以持續。</p>
+          <p className="rm3-pain-conclusion" data-reveal>
+            安全檢測真正困難的，<br className="rm3-mobile-break" />
+            從來不是掃一次，<br className="rm3-mobile-break" />
+            而是如何<span className="rm3-conclusion-highlight">持續做下去</span>。
+          </p>
         </div>
       </section>
 
       <section className="rm3-capabilities rm3-section" data-nav-surface="light" id="platform" aria-labelledby="rm3-cap-title">
         <div className="rm3-shell">
+          <SectionLabel>ONE PLATFORM, LESS COMPLEXITY</SectionLabel>
           <div className="rm3-capability-heading" data-reveal>
-            <div>
-              <SectionLabel>ONE PLATFORM, LESS COMPLEXITY</SectionLabel>
-              <h2 id="rm3-cap-title">從建立任務到取得報告，<br />都在同一個平台完成</h2>
-            </div>
+            <h2 id="rm3-cap-title">從建立任務到取得報告，<br />都在同一個平台完成</h2>
             <p>Redmark 將掃描執行、定期排程、弱點查看與報告產出整合在一起，減少安裝工具、管理環境及手動整理結果的時間。</p>
           </div>
           <div className="rm3-bento" data-reveal>
             <div className="rm3-bento-landscape" aria-hidden="true">
               <img src="/bento-snow-mountain.jpg" alt="" />
             </div>
+            <div className="rm3-bento-gutters" aria-hidden="true">
+              <i className="is-top-vertical" />
+              <i className="is-bottom-vertical" />
+            </div>
+            <div className="rm3-bento-row rm3-bento-row-top">
             <article className="rm3-bento-card rm3-bento-scan">
-              <div className="rm3-bento-copy"><FeatureIcon type="scan" /><span>01 · SCAN</span><h3>隨時發起掃描</h3><p>新增需要檢測的網站，即可建立弱點掃描任務，不必自行安裝與維護掃描工具。</p></div>
-              <ScanMock />
+              <div className="rm3-bento-copy"><FeatureIcon type="scan" /><span>01 · SCAN</span><h3>隨時發起掃描</h3><p>選擇資產與掃描類型，快速啟動一次完整的安全檢測。</p></div>
+              <div className="scan-glass-panel">
+                <img
+                  alt="Redmark 掃描目標與掃描類型預覽"
+                  height="360"
+                  src="/assets/redmark-scan-illustration-v5.svg"
+                  width="760"
+                />
+              </div>
             </article>
             <article className="rm3-bento-card rm3-bento-schedule">
               <div className="rm3-bento-copy"><FeatureIcon type="schedule" /><span>02 · SCHEDULE</span><h3>自動定期檢測</h3><p>依照網站維運需求設定執行週期，讓弱點掃描自動進行，不再依賴人工記憶。</p></div>
-              <ScheduleMock />
+                <img
+                  alt="Redmark 定期掃描排程預覽"
+                  className="rm3-schedule-preview"
+                  height="460"
+                  src="/assets/redmark-schedule-minimal-v2.svg"
+                  width="760"
+                />
             </article>
+            </div>
+            <div className="rm3-bento-row rm3-bento-row-bottom">
             <article className="rm3-bento-card rm3-bento-findings">
               <div className="rm3-bento-copy"><FeatureIcon type="finding" /><span>03 · FINDINGS</span><h3>集中查看弱點</h3><p>透過風險等級、OWASP 分類、影響位置與弱點實例，快速理解每一項問題。</p></div>
-              <FindingMock />
+              <img
+                alt="Redmark 弱點詳情與修復建議預覽"
+                className="rm3-findings-preview"
+                height="460"
+                src="/assets/redmark-findings-illustration-v3.svg"
+                width="760"
+              />
             </article>
             <article className="rm3-bento-card rm3-bento-report">
-              <div className="rm3-bento-copy"><FeatureIcon type="report" /><span>04 · REPORT</span><h3>下載完整報告</h3><p>產出包含風險概況、弱點清單、修復建議與驗證方式的弱掃報告，方便內部存檔與修復溝通。</p></div>
-              <BentoReportPreview />
+              <div className="rm3-bento-copy"><FeatureIcon type="report" /><span>04 · REPORT</span><h3>下載完整報告</h3><p>整理弱點與修復建議，快速產出可交付的安全報告。</p></div>
+              <img
+                alt="Redmark 可下載弱掃報告預覽"
+                className="rm3-report-preview"
+                height="460"
+                src="/assets/redmark-report-illustration-v2.svg"
+                width="760"
+              />
             </article>
+            </div>
           </div>
           <a className="rm3-text-link" href="#report">查看完整產品功能 <Arrow /></a>
         </div>
@@ -289,8 +267,9 @@ export default function HomepageBento() {
 
       <section className="rm3-values rm3-section" data-nav-surface="light" id="resources" aria-labelledby="rm3-values-title">
         <div className="rm3-shell">
+          <SectionLabel>BUILT FOR CONTINUOUS SCANNING</SectionLabel>
           <div className="rm3-split-heading" data-reveal>
-            <div><SectionLabel>BUILT FOR CONTINUOUS SCANNING</SectionLabel><h2 id="rm3-values-title">更常掃描，不必增加<br />同等的維運負擔</h2></div>
+            <h2 id="rm3-values-title">更常掃描，不必增加<br />同等的維運負擔</h2>
             <p>Redmark 降低弱點掃描的成本與操作門檻，讓原本低頻、依賴專家的檢測工作，成為團隊可以持續執行的日常流程。</p>
           </div>
           <div className="rm3-value-grid" data-reveal>
@@ -337,7 +316,7 @@ export default function HomepageBento() {
 
       <footer className="rm3-footer" data-nav-surface="dark" id="contact">
         <div className="rm3-footer-main">
-          <div className="rm3-footer-brand"><div><span>R</span><strong>redmark</strong></div><p>Redmark 是一套低成本、快速且容易上手的自動化弱點掃描平台，協助企業將低頻的弱點檢測，轉化為可持續執行的日常安全流程。</p></div>
+          <div className="rm3-footer-brand"><Link aria-label="Redmark 首頁" className="rm3-footer-logo" href="/"><img alt="Redmark" src="/redmark-logo-dark.svg" /></Link><p>Redmark 是一套低成本、快速且容易上手的自動化弱點掃描平台，協助企業將低頻的弱點檢測，轉化為可持續執行的日常安全流程。</p></div>
           <div className="rm3-footer-links"><div><span>PRODUCT</span><a href="#platform">產品功能</a><a href="#report">弱掃報告</a><a href="#resources">產品價值</a></div><div><span>COMPANY</span><a href="#pricing">價格方案</a><a href="#start">Early Access</a><a href="#contact">聯絡我們</a></div></div>
         </div>
         <div className="rm3-footer-bottom"><span>© 2026 REDMARK</span><span>VULNERABILITY SCANNING PLATFORM</span></div>

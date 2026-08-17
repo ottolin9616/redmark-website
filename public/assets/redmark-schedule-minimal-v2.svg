@@ -1,0 +1,67 @@
+<svg width="760" height="460" viewBox="0 0 760 460" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc" preserveAspectRatio="xMidYMid meet">
+  <title id="title">Redmark scheduled scan illustration</title>
+  <desc id="desc">A minimal layered interface for an enabled recurring vulnerability scan.</desc>
+
+  <defs>
+    <filter id="cardShadow" x="-12%" y="-24%" width="124%" height="160%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#26383C" flood-opacity="0.10"/>
+    </filter>
+    <filter id="smallShadow" x="-12%" y="-24%" width="124%" height="160%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="5" stdDeviation="8" flood-color="#26383C" flood-opacity="0.07"/>
+    </filter>
+  </defs>
+
+  <!-- Back row: lightweight context, inspired by the simple layered rows in the reference. -->
+  <g opacity="0.78" filter="url(#smallShadow)">
+    <rect x="154" y="66" width="420" height="70" rx="16" fill="#F9F8F5"/>
+    <rect x="154.75" y="66.75" width="418.5" height="68.5" rx="15.25" stroke="#DADDD8" stroke-width="1.5"/>
+    <rect x="178" y="83" width="44" height="36" rx="10" fill="#E9E6E1"/>
+    <circle cx="200" cy="101" r="8" fill="#C9CCC8"/>
+    <rect x="242" y="87" width="126" height="9" rx="4.5" fill="#E3E1DE"/>
+    <rect x="242" y="105" width="82" height="8" rx="4" fill="#EEECE9"/>
+    <rect x="463" y="85" width="83" height="30" rx="15" fill="#F1F0ED"/>
+    <circle cx="480" cy="100" r="5" fill="#C4C8C3"/>
+    <rect x="492" y="95" width="40" height="9" rx="4.5" fill="#D0D2CE"/>
+  </g>
+
+  <!-- Main schedule row. -->
+  <g filter="url(#cardShadow)">
+    <rect x="82" y="128" width="560" height="122" rx="20" fill="#FBFAF7"/>
+    <rect x="82.75" y="128.75" width="558.5" height="120.5" rx="19.25" stroke="#F15A43" stroke-width="1.5"/>
+
+    <!-- Calendar icon -->
+    <rect x="108" y="156" width="49" height="49" rx="13" fill="#FFF0EA"/>
+    <rect x="120" y="168" width="25" height="22" rx="5" stroke="#E85A43" stroke-width="2"/>
+    <path d="M120 176H145M126 163V171M139 163V171" stroke="#E85A43" stroke-width="2" stroke-linecap="round"/>
+    <path d="M126 182H130M135 182H139" stroke="#E85A43" stroke-width="1.6" stroke-linecap="round"/>
+
+    <text x="180" y="174" fill="#36474B" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Noto Sans TC', Arial, sans-serif" font-size="17" font-weight="650">定期掃描</text>
+    <text x="180" y="198" fill="#9A8981" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Noto Sans TC', Arial, sans-serif" font-size="13" font-weight="500">每週自動檢查，不錯過新的風險</text>
+
+    <rect x="524" y="158" width="92" height="34" rx="17" fill="#F1F4EF"/>
+    <circle cx="543" cy="175" r="5" fill="#69A882"/>
+    <text x="555" y="180" fill="#5C806C" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Noto Sans TC', Arial, sans-serif" font-size="12" font-weight="650">啟用中</text>
+
+    <!-- Small schedule rhythm, not a full chart. -->
+    <g transform="translate(180 216)">
+      <rect x="0" y="13" width="37" height="11" rx="5.5" fill="#E8BFB4"/>
+      <rect x="48" y="7" width="37" height="17" rx="5.5" fill="#E8BFB4"/>
+      <rect x="96" y="0" width="37" height="24" rx="5.5" fill="#F15A43"/>
+      <rect x="144" y="9" width="37" height="15" rx="5.5" fill="#E8BFB4"/>
+      <rect x="192" y="3" width="37" height="21" rx="5.5" fill="#D9442E"/>
+      <rect x="240" y="12" width="37" height="12" rx="5.5" fill="#E8BFB4"/>
+      <rect x="288" y="8" width="37" height="16" rx="5.5" fill="#E8BFB4"/>
+    </g>
+  </g>
+
+  <!-- Bottom row: execution status. -->
+  <g opacity="0.86" filter="url(#smallShadow)">
+    <rect x="146" y="278" width="470" height="74" rx="17" fill="#F9F8F5"/>
+    <rect x="146.75" y="278.75" width="468.5" height="72.5" rx="16.25" stroke="#DADDD8" stroke-width="1.5"/>
+    <circle cx="176" cy="315" r="10" fill="#E8F3EC"/>
+    <circle cx="176" cy="315" r="4.5" fill="#69A882"/>
+    <text x="200" y="310" fill="#78817E" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Noto Sans TC', Arial, sans-serif" font-size="12" font-weight="600" letter-spacing="0.3">下次執行</text>
+    <text x="200" y="332" fill="#36474B" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Noto Sans TC', Arial, sans-serif" font-size="16" font-weight="650">週三 02:00</text>
+    <path d="M548 308L556 316L548 324" stroke="#8B9692" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

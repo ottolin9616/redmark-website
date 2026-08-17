@@ -1,0 +1,43 @@
+<svg width="760" height="360" viewBox="0 0 760 360" preserveAspectRatio="xMidYMid meet" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Redmark scan target and scan type controls</title>
+  <desc id="desc">An iOS-inspired interface showing a scan target field and two web vulnerability scan type choices.</desc>
+
+  <defs>
+    <filter id="fieldShadow" x="-10%" y="-20%" width="120%" height="150%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="4" stdDeviation="7" flood-color="#172126" flood-opacity="0.08"/>
+    </filter>
+    <filter id="optionShadow" x="-10%" y="-20%" width="120%" height="150%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="3" stdDeviation="6" flood-color="#172126" flood-opacity="0.06"/>
+    </filter>
+  </defs>
+
+  <!-- Scan target -->
+  <text x="24" y="30" fill="#637374" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Noto Sans TC', Arial, sans-serif" font-size="15" font-weight="600" letter-spacing="0.2">掃描目標</text>
+
+  <g filter="url(#fieldShadow)">
+    <rect x="24" y="50" width="712" height="68" rx="16" fill="#FBFCFA"/>
+    <rect x="24.75" y="50.75" width="710.5" height="66.5" rx="15.25" stroke="#D9DFDD" stroke-width="1.5"/>
+    <text x="48" y="91" fill="#3F4C4E" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Noto Sans TC', Arial, sans-serif" font-size="17" font-weight="500">https://example.com</text>
+    <path d="M704 78L712 86L720 78" stroke="#788383" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- Scan type -->
+  <text x="24" y="166" fill="#637374" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Noto Sans TC', Arial, sans-serif" font-size="15" font-weight="600" letter-spacing="0.2">掃描類型</text>
+
+  <!-- Selected option -->
+  <g filter="url(#optionShadow)">
+    <rect x="24" y="186" width="346" height="118" rx="16" fill="#FFFDFC"/>
+    <rect x="24.75" y="186.75" width="344.5" height="116.5" rx="15.25" stroke="#E24017" stroke-width="2"/>
+    <circle cx="52" cy="226" r="12" fill="#FFF1EC" stroke="#E24017" stroke-width="2"/>
+    <circle cx="52" cy="226" r="5" fill="#E24017"/>
+    <text x="82" y="232" fill="#3F4C4E" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Noto Sans TC', Arial, sans-serif" font-size="16" font-weight="600">Web 基礎弱點掃描</text>
+  </g>
+
+  <!-- Unselected option -->
+  <g filter="url(#optionShadow)">
+    <rect x="390" y="186" width="346" height="118" rx="16" fill="#FBFCFA"/>
+    <rect x="390.75" y="186.75" width="344.5" height="116.5" rx="15.25" stroke="#D9DFDD" stroke-width="1.5"/>
+    <circle cx="418" cy="226" r="12" fill="#FBFCFA" stroke="#BFC8C6" stroke-width="2"/>
+    <text x="448" y="232" fill="#687778" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Noto Sans TC', Arial, sans-serif" font-size="16" font-weight="600">Web 動態弱點掃描</text>
+  </g>
+</svg>
