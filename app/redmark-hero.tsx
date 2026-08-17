@@ -17,16 +17,6 @@ const ChevronDown = () => (
   </svg>
 );
 
-const LogoMark = () => (
-  <svg aria-hidden="true" className="logo-mark" fill="none" viewBox="0 0 34 34">
-    <circle cx="17" cy="17" r="10.75" stroke="currentColor" strokeWidth="2" />
-    <path d="M17 6.25a10.75 10.75 0 0 1 9.31 5.38" stroke="#f04424" strokeLinecap="round" strokeWidth="2.6" />
-    <path d="M23.5 11.5 27 11l-.25 3.5" stroke="#f04424" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.7" />
-    <circle cx="17" cy="17" r="2.4" fill="#f04424" />
-    <path d="M17 14.6V9" stroke="#f04424" strokeLinecap="round" strokeWidth="1.6" />
-  </svg>
-);
-
 export default function RedmarkHero({ children }: { children: React.ReactNode }) {
   const heroRef = useRef<HTMLElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -43,7 +33,7 @@ export default function RedmarkHero({ children }: { children: React.ReactNode })
 
     const setShifts = (scrolled: number) => {
       hero.style.setProperty("--hero-background-y", `${(scrolled * 0.171).toFixed(2)}px`);
-      hero.style.setProperty("--hero-dashboard-y", `${(scrolled * 0.128).toFixed(2)}px`);
+      hero.style.setProperty("--hero-dashboard-y", `${Math.round(scrolled * 0.128)}px`);
       hero.style.setProperty("--hero-copy-y", `${(scrolled * 0.064).toFixed(2)}px`);
     };
 
@@ -117,8 +107,8 @@ export default function RedmarkHero({ children }: { children: React.ReactNode })
     <main className="site-shell monumental-variant reference-tuned bento-redesign" ref={shellRef}>
       <header className="topbar">
         <Link aria-label="Redmark 首頁" className="brand" href="/">
-          <LogoMark />
-          <span>redmark</span>
+          <img aria-hidden="true" className="brand-logo brand-logo-on-dark" src="/redmark-logo-dark.svg" alt="" />
+          <img aria-hidden="true" className="brand-logo brand-logo-on-light" src="/redmark-logo-light.svg" alt="" />
         </Link>
 
         <nav aria-label="主要導覽" className="desktop-nav">
@@ -152,9 +142,9 @@ export default function RedmarkHero({ children }: { children: React.ReactNode })
               <p className="eyebrow"><span /> VULNERABILITY SCANNING PLATFORM</p>
               <h1 id="hero-title">看得更遠，<span>更早發現風險。</span></h1>
               <p className="hero-description">
-                立即或定期掃描網站弱點，集中查看風險等級、弱點證據與修復建議。
+                自動掃描網站弱點，快速掌握風險與修復方向。
                 <br className="desktop-break" />
-                Redmark 讓團隊不必自行部署與維護複雜工具，也能持續執行安全檢測。
+                Redmark 讓團隊無需部署複雜工具，讓安全檢測持續運作。
               </p>
               <div className="hero-actions">
                 <a className="primary-cta" href="#start">立即開始掃描 <ArrowUpRight /></a>
@@ -172,7 +162,12 @@ export default function RedmarkHero({ children }: { children: React.ReactNode })
                   <img
                     alt="Redmark 英文版資產弱點掃描詳情，包含風險分級與弱點列表"
                     decoding="async"
+                    fetchPriority="high"
+                    height="1021"
+                    loading="eager"
                     src="/redmark-dashboard-en-real.png"
+                    srcSet="/redmark-dashboard-en-real.png 1x, /redmark-dashboard-en-real@2x.png 2x"
+                    width="2048"
                   />
                 </div>
               </div>

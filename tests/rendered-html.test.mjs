@@ -71,18 +71,25 @@ test("all production local image references exist", async () => {
 
   for (const sourceFile of sourceFiles) {
     const source = await readFile(sourceFile, "utf8");
-    for (const match of source.matchAll(/["'(](\/[A-Za-z0-9._/-]+\.(?:png|jpe?g|svg|webp))["')]/gi)) {
-      references.add(match[1]);
+    for (const match of source.matchAll(/\/[A-Za-z0-9@._/-]+\.(?:png|jpe?g|svg|webp)/gi)) {
+      references.add(match[0]);
     }
   }
 
   assert.deepEqual(
     [...references].sort(),
     [
+      "/assets/redmark-findings-illustration-v3.svg",
+      "/assets/redmark-report-illustration-v2.svg",
+      "/assets/redmark-scan-illustration-v5.svg",
+      "/assets/redmark-schedule-minimal-v2.svg",
       "/bento-snow-mountain.jpg",
       "/favicon.svg",
       "/mountain-background.jpg",
       "/redmark-dashboard-en-real.png",
+      "/redmark-dashboard-en-real@2x.png",
+      "/redmark-logo-dark.svg",
+      "/redmark-logo-light.svg",
       "/redmark-report-executive-summary.png",
     ],
   );

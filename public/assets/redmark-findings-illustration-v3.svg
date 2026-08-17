@@ -1,0 +1,52 @@
+<svg width="760" height="460" viewBox="0 0 760 460" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc" preserveAspectRatio="xMidYMid meet">
+  <title id="title">Redmark vulnerability details illustration</title>
+  <desc id="desc">A minimal vulnerability details interface showing a high-risk Content Security Policy finding and remediation entry point.</desc>
+
+  <defs>
+    <filter id="cardShadow" x="-12%" y="-20%" width="124%" height="150%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#26383C" flood-opacity="0.10"/>
+    </filter>
+    <filter id="smallShadow" x="-12%" y="-24%" width="124%" height="160%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="5" stdDeviation="8" flood-color="#26383C" flood-opacity="0.07"/>
+    </filter>
+  </defs>
+
+  <!-- Quiet context layers: same visual language as the schedule illustration, different composition. -->
+  <g opacity="0.72" filter="url(#smallShadow)">
+    <rect x="106" y="42" width="548" height="54" rx="14" fill="#F9F8F5"/>
+    <rect x="106.75" y="42.75" width="546.5" height="52.5" rx="13.25" stroke="#DADDD8" stroke-width="1.5"/>
+    <rect x="132" y="62" width="76" height="9" rx="4.5" fill="#E5E3DF"/>
+    <rect x="226" y="62" width="132" height="9" rx="4.5" fill="#EEECE9"/>
+    <rect x="558" y="55" width="68" height="26" rx="13" fill="#F1F0ED"/>
+  </g>
+
+  <!-- Main vulnerability detail surface. -->
+  <g filter="url(#cardShadow)">
+    <rect x="54" y="84" width="652" height="300" rx="22" fill="#FBFAF7"/>
+    <rect x="54.75" y="84.75" width="650.5" height="298.5" rx="21.25" stroke="#DADDD8" stroke-width="1.5"/>
+
+    <!-- Header -->
+    <text x="90" y="129" fill="#78817E" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Noto Sans TC', Arial, sans-serif" font-size="13" font-weight="650" letter-spacing="0.2">弱點詳情</text>
+    <rect x="594" y="105" width="78" height="32" rx="16" fill="#FCE6E0"/>
+    <text x="633" y="125" text-anchor="middle" fill="#D9553F" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Noto Sans TC', Arial, sans-serif" font-size="12" font-weight="700">高風險</text>
+
+    <!-- Finding title and compact metadata -->
+    <text x="90" y="183" fill="#36474B" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Noto Sans TC', Arial, sans-serif" font-size="19" font-weight="700">Content Security Policy 未設定</text>
+    <rect x="90" y="205" width="88" height="30" rx="10" fill="#E9F0F1"/>
+    <text x="134" y="224" text-anchor="middle" fill="#687C81" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Noto Sans TC', Arial, sans-serif" font-size="11" font-weight="600">OWASP A05</text>
+    <rect x="186" y="205" width="118" height="30" rx="10" fill="#E9F0F1"/>
+    <text x="245" y="224" text-anchor="middle" fill="#687C81" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Noto Sans TC', Arial, sans-serif" font-size="11" font-weight="600">安全性設定錯誤</text>
+
+    <!-- Lower detail field -->
+    <rect x="90" y="267" width="580" height="1.5" fill="#E6E7E3"/>
+    <text x="90" y="297" fill="#A1AAA6" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Noto Sans TC', Arial, sans-serif" font-size="11" font-weight="600">影響位置</text>
+    <text x="90" y="323" fill="#617277" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="14" font-weight="500">https://example.com/account</text>
+
+    <!-- Remediation entry point -->
+    <rect x="90" y="346" width="580" height="1.5" fill="#E6E7E3"/>
+    <circle cx="96" cy="369" r="6" fill="#E8F3EC"/>
+    <path d="M93 369L95.2 371.2L99.3 366.8" stroke="#69A882" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="114" y="374" fill="#78817E" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Noto Sans TC', Arial, sans-serif" font-size="12" font-weight="600">修復建議與驗證方式</text>
+    <path d="M653 365L661 373M661 365V373H653" stroke="#71858A" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>
