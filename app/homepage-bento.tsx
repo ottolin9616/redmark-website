@@ -116,6 +116,13 @@ const reportFeatures = [
   ["04", "產出可交付報告", "下載完整弱掃報告，用於內部存檔、跨部門溝通與後續修復追蹤。"],
 ];
 
+const figmaReportFeatures = [
+  ["01｜產出 Redmark 專業報告", "Redmark 從資產全局角度出發，將生澀的技術語言轉化為清晰易懂、具備修復依據的專業弱掃報告，協助團隊快速掌握風險並推進修復。"],
+  ["02｜掌握整體風險", "整合不同資產、掃描結果與風險分布，將分散的弱點資訊彙整成清晰的安全全貌，協助團隊快速了解目前的整體狀態。"],
+  ["03｜找出優先修復項目", "依據風險等級、影響範圍與資產重要性，整理出最需要優先處理的問題，讓修復資源能夠投入真正關鍵的風險。"],
+  ["04｜取得具體修復方向", "針對每項弱點提供原因分析、修復步驟與驗證方式，將掃描發現轉化為 IT 與開發團隊可以直接執行的修復行動。"],
+];
+
 const values = [
   ["降低持續檢測成本", "依照資產額度與安全覆蓋需求選擇方案，在方案額度內不限制掃描次數。"],
   ["更快開始掃描", "建立網站後即可發起任務，不必每次重新安裝工具、準備環境或調整複雜設定。"],
@@ -128,7 +135,7 @@ const plans = [
   ["Customized", "客製版", "適合具有特殊資產規模、部署方式或企業安全需求的組織。", "ENTERPRISE NEEDS"],
 ];
 
-export default function HomepageBento() {
+export default function HomepageBento({ reportVariant = "current" }: { reportVariant?: "current" | "figma" }) {
   const [activeReportFeature, setActiveReportFeature] = useState(0);
 
   useEffect(() => {
@@ -239,6 +246,44 @@ export default function HomepageBento() {
         </div>
       </section>
 
+      {reportVariant === "figma" ? (
+      <section className="rm3-report-v2 rm3-section" data-nav-surface="light" id="report" aria-labelledby="rm3-report-v2-title">
+        <span className="rm3-anchor-target" id="solutions" aria-hidden="true" />
+        <div className="rm3-shell">
+          <div className="rm3-report-v2-label" data-reveal><SectionLabel>ACTIONABLE REPORTING</SectionLabel></div>
+          <div className="rm3-report-v2-heading" data-reveal>
+            <p>Redmark 將複雜的掃描結果整理成容易理解、能夠採取行動的弱掃報告，協助 IT、開發與安全團隊快速確認問題並安排修復。</p>
+            <h2 id="rm3-report-v2-title">不只告訴你哪裡有問題，<br />也說清楚下一步</h2>
+          </div>
+          <div className="rm3-report-v2-layout" data-reveal>
+            <div className="rm3-report-v2-list" aria-label="弱掃報告功能">
+              {figmaReportFeatures.map(([title, text], index) => (
+                <button
+                  aria-pressed={activeReportFeature === index}
+                  className={activeReportFeature === index ? "is-active" : ""}
+                  key={title}
+                  onClick={() => setActiveReportFeature(index)}
+                  type="button"
+                >
+                  <span className="rm3-report-v2-item-text">
+                    <strong>{title}</strong>
+                    <span>{text}</span>
+                  </span>
+                </button>
+              ))}
+            </div>
+            <figure className="rm3-report-v2-preview">
+              <div className="rm3-report-v2-glass">
+                <div className="rm3-report-v2-window-bar" aria-hidden="true"><i /><i /><i /></div>
+                <div className="rm3-report-v2-viewport">
+                  <img alt="Redmark 弱點掃描報告完整封面預覽" src="/redmark-report-cover-full.png" />
+                </div>
+              </div>
+            </figure>
+          </div>
+        </div>
+      </section>
+      ) : (
       <section className="rm3-report rm3-section" data-nav-surface="light" id="report" aria-labelledby="rm3-report-title">
         <span className="rm3-anchor-target" id="solutions" aria-hidden="true" />
         <div className="rm3-report-glow" aria-hidden="true" />
@@ -264,6 +309,7 @@ export default function HomepageBento() {
           <div className="rm3-report-stage" data-reveal><RealReportPreview activeIndex={activeReportFeature} /></div>
         </div>
       </section>
+      )}
 
       <section className="rm3-values rm3-section" data-nav-surface="light" id="resources" aria-labelledby="rm3-values-title">
         <div className="rm3-shell">
