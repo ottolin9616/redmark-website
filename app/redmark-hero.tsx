@@ -13,6 +13,8 @@ const ArrowUpRight = () => (
 
 
 export default function RedmarkHero({ children }: { children: React.ReactNode }) {
+  const loginUrl = process.env.NEXT_PUBLIC_WEAKSCAN_LOGIN_URL || "";
+
   const heroRef = useRef<HTMLElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const shellRef = useRef<HTMLElement>(null);
@@ -107,14 +109,14 @@ export default function RedmarkHero({ children }: { children: React.ReactNode })
         </Link>
 
         <nav aria-label="主要導覽" className="desktop-nav">
-          <a href="#platform">產品功能</a>
-          <a href="#pricing">價格方案</a>
-          <a href="#contact">聯繫我們</a>
+          <a className="nav-temp-hidden" href="#platform" style={{ display: "none" }}>產品功能</a>
+          <a className="nav-temp-hidden" href="#pricing" style={{ display: "none" }}>價格方案</a>
+          <a className="nav-temp-hidden" href="#contact" style={{ display: "none" }}>聯繫我們</a>
         </nav>
 
         <div className="nav-actions">
-          <a className="login-link" href="#start">登入</a>
-          <a className="nav-cta" href="#contact">預約展示 <ArrowUpRight /></a>
+          <a className="login-link" href={loginUrl || "#start"}>登入</a>
+          <a className="nav-cta" href={loginUrl || "#contact"}>立刻掃描 <ArrowUpRight /></a>
         </div>
 
         <button aria-label="開啟選單" className="menu-button" type="button">
@@ -141,7 +143,7 @@ export default function RedmarkHero({ children }: { children: React.ReactNode })
                 Redmark 讓團隊無需部署複雜工具，讓安全檢測持續運作。
               </p>
               <div className="hero-actions">
-                <a className="primary-cta" href="#start">立即開始掃描 <ArrowUpRight /></a>
+                <a className="primary-cta" href={loginUrl || "#start"}>立即開始掃描 <ArrowUpRight /></a>
               </div>
             </div>
 

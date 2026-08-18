@@ -162,6 +162,16 @@ button {
   transition: color 180ms ease;
 }
 
+.nav-temp-hidden,
+.desktop-nav a[href="#platform"],
+.desktop-nav a[href="#pricing"],
+.desktop-nav a[href="#contact"],
+.rm3-footer-links a[href="#platform"],
+.rm3-footer-links a[href="#pricing"],
+.rm3-footer-links a[href="#contact"] {
+  display: none !important;
+}
+
 .desktop-nav a:hover,
 .login-link:hover {
   color: #ffffff;
