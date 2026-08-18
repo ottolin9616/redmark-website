@@ -136,6 +136,8 @@ const plans = [
 ];
 
 export default function HomepageBento({ reportVariant = "current" }: { reportVariant?: "current" | "figma" }) {
+  const loginUrl = process.env.NEXT_PUBLIC_WEAKSCAN_LOGIN_URL || "";
+
   const [activeReportFeature, setActiveReportFeature] = useState(0);
 
   useEffect(() => {
@@ -344,7 +346,7 @@ export default function HomepageBento({ reportVariant = "current" }: { reportVar
               </article>
             ))}
           </div>
-          <div className="rm3-pricing-actions" data-reveal><a className="primary" href="#start">查看方案與價格 <Arrow /></a><a href="#contact">聯絡我們</a></div>
+          <div className="rm3-pricing-actions" data-reveal><a className="primary nav-temp-hidden" href="#start" style={{ display: "none" }}>查看方案與價格 <Arrow /></a><a className="nav-temp-hidden" href="#contact" style={{ display: "none" }}>聯絡我們</a></div>
         </div>
       </section>
 
@@ -355,7 +357,7 @@ export default function HomepageBento({ reportVariant = "current" }: { reportVar
           <span>START WITH ONE WEBSITE</span>
           <h2 id="rm3-final-title">從第一個網站開始，建立持續弱掃流程</h2>
           <p>以更低的執行成本持續檢測網站弱點，更早發現問題，也讓每一次修復都有清楚的方向。</p>
-          <a href="#early-access">立刻開始掃描 <Arrow /></a>
+          <a href={loginUrl || "#early-access"}>立刻開始掃描 <Arrow /></a>
         </div>
       </section>
 
@@ -363,9 +365,9 @@ export default function HomepageBento({ reportVariant = "current" }: { reportVar
         <div className="rm3-footer-main">
           <div className="rm3-footer-brand"><Link aria-label="Redmark 首頁" className="rm3-footer-logo" href="/"><img alt="Redmark" src="/redmark-logo-dark.svg" /></Link><p>Redmark 是一套低成本、快速且容易上手的自動化弱點掃描平台，協助企業將低頻的弱點檢測，轉化為可持續執行的日常安全流程。</p></div>
           <div className="rm3-footer-links">
-            <a href="#platform">產品功能</a>
-            <a href="#pricing">價格方案</a>
-            <a href="#contact">聯繫我們</a>
+            <a className="nav-temp-hidden" href="#platform" style={{ display: "none" }}>產品功能</a>
+            <a className="nav-temp-hidden" href="#pricing" style={{ display: "none" }}>價格方案</a>
+            <a className="nav-temp-hidden" href="#contact" style={{ display: "none" }}>聯繫我們</a>
           </div>
         </div>
         <div className="rm3-footer-bottom"><span>© 2026 REDMARK</span><span>VULNERABILITY SCANNING PLATFORM</span></div>
