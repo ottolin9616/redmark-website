@@ -2,8 +2,35 @@
 
 /* eslint-disable @next/next/no-img-element -- The approved report and continuous Bento landscape use direct image rendering. */
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
+
+type PdfJsModule = {
+  getDocument: (source: string) => {
+    promise: Promise<unknown>;
+    destroy: () => void;
+  };
+  GlobalWorkerOptions: {
+    workerSrc: string;
+  };
+};
+
+type PDFDocumentProxy = {
+  numPages: number;
+  getPage: (pageNumber: number) => Promise<{
+    getViewport: (params: { scale: number }) => { width: number; height: number };
+    render: (params: {
+      canvasContext: CanvasRenderingContext2D;
+      viewport: { width: number; height: number };
+    }) => { promise: Promise<void>; cancel: () => void };
+  }>;
+  destroy: () => void;
+};
+
+type PDFRenderTask = {
+  promise: Promise<void>;
+  cancel: () => void;
+};
 
 const Arrow = () => (
   <svg aria-hidden="true" fill="none" viewBox="0 0 20 20">
@@ -23,6 +50,216 @@ const Shield = () => (
     <path d="m8.7 12 2.1 2.1 4.6-4.8" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.4" />
   </svg>
 );
+
+type PdfReportPreviewProps = {
+  pdfSource: string;
+  pageNumber?: number;
+  className?: string;
+  alt: string;
+};
+
+const PdfReportPreview = ({ pdfSource, pageNumber = 1, className = "", alt }: PdfReportPreviewProps) => {
+  const [isReady, setIsReady] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
+  const [aspectRatio, setAspectRatio] = useState(1.414);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const docRef = useRef<PDFDocumentProxy | null>(null);
+  const loadTaskRef = useRef<{
+    destroy: () => void;
+    promise: Promise<PDFDocumentProxy>;
+  } | null>(null);
+  const renderTaskRef = useRef<PDFRenderTask | null>(null);
+  const pdfModuleRef = useRef<PdfJsModule | null>(null);
+  const renderTokenRef = useRef(0);
+  const pageRef = useRef(pageNumber);
+  const resizeObserverRef = useRef<ResizeObserver | null>(null);
+  const resizeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    pageRef.current = pageNumber;
+  }, [pageNumber]);
+
+  const cleanupRender = useCallback(() => {
+    if (renderTaskRef.current) {
+      renderTaskRef.current.cancel();
+      renderTaskRef.current = null;
+    }
+  }, []);
+
+  const cleanupResizeObserver = useCallback(() => {
+    if (resizeObserverRef.current) {
+      resizeObserverRef.current.disconnect();
+      resizeObserverRef.current = null;
+    }
+    if (resizeTimerRef.current) {
+      window.clearTimeout(resizeTimerRef.current);
+      resizeTimerRef.current = null;
+    }
+  }, []);
+
+  const renderPage = useCallback(
+    async (requestedPage: number) => {
+      const doc = docRef.current;
+      const canvas = canvasRef.current;
+      const container = containerRef.current;
+      if (!doc || !canvas || !container || !Number.isFinite(requestedPage)) return;
+
+      const token = ++renderTokenRef.current;
+      const boundedPage = Math.min(Math.max(Math.round(requestedPage), 1), doc.numPages);
+      const page = await doc.getPage(boundedPage);
+      const containerWidth = Math.max(container.clientWidth, 1);
+      const baseViewport = page.getViewport({ scale: 1 });
+      const dpr = window.devicePixelRatio || 1;
+      const scale = (containerWidth / baseViewport.width) * dpr;
+      const viewport = page.getViewport({ scale });
+      const context = canvas.getContext("2d");
+      if (!context) return;
+
+      if (renderTaskRef.current) {
+        renderTaskRef.current.cancel();
+        renderTaskRef.current = null;
+      }
+
+      setIsError(false);
+      setIsReady(false);
+      setIsLoading(true);
+      setAspectRatio(Math.max(baseViewport.height / baseViewport.width, 0.2));
+      canvas.width = Math.ceil(viewport.width);
+      canvas.height = Math.ceil(viewport.height);
+      context.save();
+      context.setTransform(1, 0, 0, 1, 0, 0);
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      context.restore();
+
+      const renderTask = page.render({ canvasContext: context, viewport });
+      renderTaskRef.current = renderTask;
+
+      try {
+        await renderTask.promise;
+        if (token !== renderTokenRef.current) return;
+        setIsLoading(false);
+        setIsReady(true);
+      } catch (error: unknown) {
+        if (error instanceof Error && error.name === "RenderingCancelledException") {
+          return;
+        }
+        if (token !== renderTokenRef.current) return;
+        setIsError(true);
+        setIsLoading(false);
+      } finally {
+        if (renderTaskRef.current === renderTask) {
+          renderTaskRef.current = null;
+        }
+      }
+    },
+    [setIsError, setIsLoading, setIsReady, setAspectRatio],
+  );
+
+  const scheduleRender = useCallback(
+    (nextPage: number) => {
+      if (resizeTimerRef.current) {
+        window.clearTimeout(resizeTimerRef.current);
+      }
+      resizeTimerRef.current = window.setTimeout(() => {
+        void renderPage(nextPage);
+      }, 120);
+    },
+    [renderPage],
+  );
+
+  useEffect(() => {
+    let disposed = false;
+    const loadAndRender = async () => {
+        const [pdfModule, workerSrc] = await Promise.all([
+          (async () => {
+            const imported = (await import("pdfjs-dist")) as unknown;
+            return imported as PdfJsModule;
+          })(),
+          import("pdfjs-dist/build/pdf.worker.min.mjs?url").then((mod) => mod.default),
+        ]);
+
+      if (disposed) return;
+      if (!pdfModuleRef.current) {
+        pdfModule.GlobalWorkerOptions.workerSrc = workerSrc;
+        pdfModuleRef.current = pdfModule;
+      }
+
+      const task = pdfModule.getDocument(pdfSource);
+      loadTaskRef.current = {
+        promise: task.promise.then((doc) => doc as PDFDocumentProxy),
+        destroy: task.destroy,
+      };
+
+      try {
+        const pdf = await loadTaskRef.current.promise;
+        if (disposed) return;
+        docRef.current = pdf;
+        scheduleRender(pageRef.current);
+
+        if (!containerRef.current) return;
+        if (resizeObserverRef.current) {
+          resizeObserverRef.current.disconnect();
+        }
+        resizeObserverRef.current = new ResizeObserver(() => {
+          scheduleRender(pageRef.current);
+        });
+        resizeObserverRef.current.observe(containerRef.current);
+      } catch (error: unknown) {
+        if (disposed) return;
+        const isCancel = error instanceof Error && error.name === "PasswordException";
+        if (!isCancel) {
+          setIsError(true);
+          setIsLoading(false);
+        }
+      }
+    };
+
+    void loadAndRender();
+
+    return () => {
+      disposed = true;
+      renderTokenRef.current += 1;
+      cleanupRender();
+      cleanupResizeObserver();
+      if (loadTaskRef.current) {
+        loadTaskRef.current.destroy();
+        loadTaskRef.current = null;
+      }
+      if (docRef.current) {
+        docRef.current.destroy();
+        docRef.current = null;
+      }
+    };
+  }, [pdfSource, scheduleRender, cleanupRender, cleanupResizeObserver]);
+
+  useEffect(() => {
+    if (!docRef.current) return;
+    scheduleRender(pageNumber);
+  }, [pageNumber, scheduleRender]);
+
+      return (
+    <div className={`rm3-report-v2-viewport-shell ${className}`}>
+      <div
+        aria-busy={isLoading}
+        className="rm3-report-v2-viewport"
+        ref={containerRef}
+        style={{ aspectRatio: `1 / ${aspectRatio}` }}
+      >
+        <div className="rm3-report-v2-motion-layer">
+          <canvas
+            aria-label={alt}
+            className={`rm3-report-v2-canvas${isReady ? " is-visible" : ""}`}
+            ref={canvasRef}
+          />
+          {isLoading && <div className="rm3-report-v2-skeleton" />}
+          {isError && <p className="rm3-report-v2-error" role="status">報告載入失敗</p>}
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const SectionLabel = ({ children, light = false }: { children: React.ReactNode; light?: boolean }) => (
   <p className={`rm3-label${light ? " rm3-label-light" : ""}`}><i />{children}</p>
@@ -277,9 +514,11 @@ export default function HomepageBento({ reportVariant = "current" }: { reportVar
             <figure className="rm3-report-v2-preview">
               <div className="rm3-report-v2-glass">
                 <div className="rm3-report-v2-window-bar" aria-hidden="true"><i /><i /><i /></div>
-                <div className="rm3-report-v2-viewport">
-                  <img alt="Redmark 弱點掃描報告完整封面預覽" src="/redmark-report-cover-full.png" />
-                </div>
+                <PdfReportPreview
+                  alt="Redmark 弱點掃描報告完整封面預覽"
+                  pdfSource="/reports/redmark-vulnerability-scan-report.pdf"
+                  pageNumber={1}
+                />
               </div>
             </figure>
           </div>
