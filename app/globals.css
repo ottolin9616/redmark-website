@@ -412,6 +412,7 @@ button {
 
 .dashboard-viewport img {
   width: 100%;
+  aspect-ratio: 2048 / 1021;
   height: auto;
   display: block;
   max-width: none;
@@ -419,6 +420,8 @@ button {
   rotate: none;
   scale: none;
   transform: none;
+  object-fit: cover;
+  object-position: 50% 0%;
 }
 
 /* Monumental comparison route: preserve the original screenshot scale while
@@ -1625,7 +1628,46 @@ button {
 .rm3-report-v2-window-bar i { width: 7px; height: 7px; border: 1px solid rgba(84,101,103,.2); border-radius: 50%; background: rgba(255,255,255,.75); }
 .rm3-report-v2-window-bar i:first-child { border-color: rgba(226,64,23,.38); background: #e75a3a; }
 .rm3-report-v2-viewport { position: relative; z-index: 1; overflow: hidden; border-radius: 15px; background: #f7f7f7; box-shadow: 0 0 0 1px rgba(10,21,29,.12); }
-.rm3-report-v2-viewport img { width: 100%; max-width: 100%; height: auto; display: block; object-fit: contain; }
+.rm3-report-v2-motion-layer {
+  position: relative;
+  transform: translateY(0);
+  will-change: transform;
+}
+.rm3-report-v2-canvas {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: auto;
+  opacity: 0;
+  transition: opacity 320ms ease;
+}
+
+.rm3-report-v2-canvas.is-visible { opacity: 1; }
+
+.rm3-report-v2-viewport-shell { position: relative; }
+.rm3-report-v2-skeleton {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(255,255,255,.2), rgba(255,255,255,.08), rgba(255,255,255,.2));
+  animation: rm3-skeleton 1.2s linear infinite;
+}
+
+@keyframes rm3-skeleton {
+  from { transform: translateX(-20%); }
+  to { transform: translateX(20%); }
+}
+
+.rm3-report-v2-error {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  color: rgba(35, 47, 53, 0.7);
+  font-size: 11px;
+  background: rgba(249, 248, 246, 0.7);
+}
 @media (max-width: 900px) {
   .rm3-report-v2-label { width: 100%; }
   .rm3-report-v2-heading { grid-template-columns: 1fr; gap: 24px; }
@@ -1648,6 +1690,13 @@ button {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .rm3-report-v2-motion-layer,
+  .rm3-report-v2-glass {
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+    transform: translateY(0) !important;
+  }
+
   html {
     scroll-behavior: auto;
   }
